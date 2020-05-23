@@ -2,21 +2,14 @@ const fastifyPlugin = require('fastify-plugin');
 
 async function dbConnector(fastify, options) {
   const notes = [
-    { id: 1, title: 'title', description: 'description', isDone: false, isImportant: false, isDelete: false, date: '20/06/2020' },
-    { id: 2, title: 'title', description: 'description', isDone: false, isImportant: false, isDelete: false, date: '19/06/2020' },
+    { id: 1, title: 'title', description: 'description', isDone: false, isImportant: false, isDelete: false, date: new Date() },
+    { id: 2, title: 'title', description: 'description', isDone: false, isImportant: false, isDelete: false, date: new Date() },
   ];
-
-  const getDate = () => {
-    const date = new Date();
-    const day = (date.getDate() < 10 ? "0" : "") + date.getDate();
-    const month = (date.getMonth() < 10 ? "0" : "") + date.getMonth();
-    return `${day}/${month}/${date.getFullYear()}`;
-  }
 
   const db = {
     get: () => notes.filter(n => !n.isDelete),
     add: (note) => {
-      const data = { id: notes.length + 1, ...note, isDelete: false, date: getDate() };
+      const data = { id: notes.length + 1, ...note, isDelete: false, date: new Date() };
       notes.push(data);
       return data;
     },
